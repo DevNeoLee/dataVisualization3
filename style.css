@@ -1,0 +1,21 @@
+      .area {
+            stroke: white;
+            stroke-width: 0.2px;
+        }
+        .area:hover {
+            fill: rgb(229, 173, 151);
+            cursor: pointer;
+        }
+
+        .select {
+            font-size: 1.5rem;
+            background-color: DodgerBlue;
+            color: white;
+            width: 10rem;
+        }
+
+        .slider {
+            font-size: 1.5rem;
+            width: 25rem;
+        }
+

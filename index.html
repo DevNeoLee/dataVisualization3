@@ -7,104 +7,39 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-    
+    <link rel="stylesheet" href="style.css"> 
     <title>Non-residential Tourists to Canada by provinces</title>
-    <style>
-        .area {
-            stroke: white;
-            stroke-width: 0.2px;
-        }
-        .area:hover {
-            fill: rgb(229, 173, 151);
-        }
-    </style>
+
 </head>
 <body>
     <div>
         <h2>Non-Residential Tourists to Canada by Provinces</h2>
+        <div id="hover-tt">oh</div>
     </div>
-    <script>
+    <h3 class="canada-header"> travel to Canada provinces by monthly data</h3>
 
-        
-         const canvas = d3.select('body')
-                .append('svg')
-                .attr('width', '1550')
-                .attr('height', '750')
-                .style('background-color', '#eeeeee')
+    <div>
+        <h4>various data for each province</h4>
+        <select id="year" name="year" class="select">
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
+            <option value="2015">2015</option>
+            <option value="2014">2014</option>
+            <option value="2013">2013</option>
+            <option value="2012">2012</option>
+            <option value="2011">2011</option>
+            <option value="2010">2010</option>
+        </select>
+
       
-        d3.json("canadaProvinces.json").then((data) => {
-            const group = canvas.selectAll('g')
-                            .data(data.features)
-                            .enter()
-                            .append('g')
-
-            const projection = d3.geoMercator().scale([450]).translate([1150,930]);
-            const path = d3.geoPath().projection(projection);
-
-            const areas = group.append("path")
-                .attr('d', path)
-                .attr('class', 'area')
-                .attr('fill', 'steelblue')
-            .append('title')
-                .text((d) => d.properties.PRENAME);
-            
-            // const provinces = feature(data, data.objects.provinces);
-            // svg.selectAll('path').data(provinces.features)
-            //     .enter().append('path')
-            //         .attr('class', 'province')
-            //         .attr('title', 'hello Canada')
-            //         .attr('d', path)
-
-
-            // group.append('text')
-            //     .attr('x', (data) => { return path.centroid(data)[0]; })
-            //     .attr('y', (data) => { return path.centroid(data)[1]; })
-            //     .attr('text-anchor', 'middle' )
-            //     .style('font-size', '10px')
-            //     .text((data)=>{ return data.properties.PRENAME;})
-
-         
-            
-            
-
-            d3.select(window).on('resize', () => { return canvas.resize()})
-    });
-
-    //sample csv data maniplulation
-    fetch('travel_to_canada_province.csv')
-        .then(response => response.text())
-        .then((data) => { 
-          const arr = parseCSV(data);
-          newArr = [];
-          arr.forEach((ele) =>{
-            if (( ele[1] == "Newfoundland and Labrador" ||
-                        ele[1] == "Prince Edward Island" ||
-                        ele[1] == "Nova Scotia" ||
-                        ele[1] == "New Brunswick" ||
-                        ele[1] == "Quebec" ||
-                        ele[1] == "Ontario" ||
-                        ele[1] == "Manitoba" ||
-                        ele[1] == "Saskatchewan" ||
-                        ele[1] == "Alberta" ||
-                        ele[1] == "British Columbia" ||
-                        ele[1] == "Yukon" ||
-                        ele[1] == "Nunavut") && 
-                        ele[3] == "Total non resident tourists" &&
-                        ele[4] == "Unadjusted" &&
-                        ele[0][0] == '2'
-                        ) {
-                            newArr.push([ele[0], ele[1], ele[11]]);
-                        }
-            return newArr;
-            })
-        // console.log(newArr);
-        });
-        
-          
-
-
-    
-      
-    </script>
+        <div class="slidecontainer">
+            each months
+            <input type="range" min="1" max="12" value="1" class="slider" id="myRange">
+        </div>
+        <div>bar chart for each province of Canada</div>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
