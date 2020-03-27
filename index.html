@@ -8,38 +8,38 @@
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
     <link rel="stylesheet" href="style.css"> 
-    <title>Non-residential Tourists to Canada by provinces</title>
+    <title>Tourists to Canada from Other countries</title>
 
 </head>
 <body>
-    <div>
-        <h2>Non-Residential Tourists to Canada by Provinces</h2>
-        <div id="hover-tt">oh</div>
-    </div>
-    <h3 class="canada-header"> travel to Canada provinces by monthly data</h3>
-
-    <div>
-        <h4>various data for each province</h4>
-        <select id="year" name="year" class="select">
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
-            <option value="2016">2016</option>
-            <option value="2015">2015</option>
-            <option value="2014">2014</option>
-            <option value="2013">2013</option>
-            <option value="2012">2012</option>
-            <option value="2011">2011</option>
-            <option value="2010">2010</option>
-        </select>
-
-      
-        <div class="slidecontainer">
-            each months
-            <input type="range" min="1" max="12" value="1" class="slider" id="myRange">
+    <div class="wrapper">
+        <div class="displayContainer">
+            <div class="tooltip"></div>
         </div>
-        <div>bar chart for each province of Canada</div>
+        <div class="controlPanel">
+            <h4>various data for each province</h4>
+            <select id="year" name="year" class="select">
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+                <option value="2013">2013</option>
+                <option value="2012">2012</option>
+                <option value="2011">2011</option>
+                <option value="2010">2010</option>
+            </select>
+            <div class="slidecontainer">
+                each months
+                <input type="range" min="1" max="12" value="1" class="slider" id="myRange">
+            </div>
+            <div>bar chart for each province of Canada</div>
+        </div>
     </div>
+   
+    
     <script src="main.js"></script>
+   
 </body>
 </html>
