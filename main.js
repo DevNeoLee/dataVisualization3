@@ -35,33 +35,17 @@
     };
        
 
-
-// const years = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
-// const months = [1,2,3,4,5,6,7,8,9,10,11,12];
-
-const monthlyDataSet = () => {
-    const monthly = {};
-
-    years.forEach((year) => {
-        months.forEach((month)=> {
-            // console.log("year: " + year + " month: " + month );
-            // travelData.
-        });
-    });
-}
-
 //action method, from the request with year and month, calls travelData() method, 
 //returns an array of data for the month, subArray of whole data
-async function sendDataSet(year, month)  {
+async function requestMonthlyData(year, month)  {
     const startIndex = ( 144*year) + 12*(month - 1);
     const endIndex = startIndex + 11;
 
     const datum = await travelData();
-    return datum.slice(startIndex, (endIndex + 1));
+    const monthlyData = datum.slice(startIndex, (endIndex + 1));
+    return monthlyData;
 }
 
-console.log(sendDataSet(20, 1));
-// console.log(sendDataSet(0, 2));
 
 
 const getTouristPopulation = () => {
@@ -143,15 +127,20 @@ d3.json("canadaProvinces.json").then((data) => {
         .text((data) => { return data.properties.PRENAME; })
 });
 
+//select control panel input
+    document.querySelector('.select').addEventListener("change", function(){
+        requestMonthlyData(document.querySelector('.select').value, document.querySelector('.slider').value);
+    });
 //range slider input
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     document.querySelector('.slider').addEventListener("change", function(){
         const value = document.querySelector('.slider').value;
         document.querySelector('.monthDisplay').innerText = months[value - 1];
+
+        requestMonthlyData(document.querySelector('.select').value, value);
         });
 
-        // document.querySelector('.monthDisplay').innerText = 
-        // document.querySelector('.slider').value;
+
   
    
 
