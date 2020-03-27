@@ -46,8 +46,19 @@
             width: 10rem;
         }
 
+        .monthDisplay {
+            margin: 1rem;
+            width: 4rem;
+            font-size: 1.3rem;
+            background-color: lightgreen;
+            line-height: 2;
+            text-align: center;
+            border-radius: 0.4rem;
+        }
+
         .slider {
             font-size: 1.5rem;
             width: 25rem;
+
         }
 

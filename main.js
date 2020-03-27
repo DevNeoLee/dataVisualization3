@@ -1,12 +1,13 @@
 
 // csv data 
-    const travelData = () => { 
+    async function travelData() { 
         const newArr = [];
-        fetch('travel_to_canada_province.csv')
-        .then(response => response.text())
-        .then((data) => {
-            const arr = parseCSV(data);
-            
+        let response = await fetch('travel_to_canada_province.csv')
+        
+        if (response.status == 200) {
+            let data = await response.text();
+            let arr = await parseCSV(data);
+      
             arr.forEach((ele) => {
                 if ((ele[1] == "Newfoundland and Labrador" ||
                     ele[1] == "Prince Edward Island" ||
@@ -26,16 +27,17 @@
                 ) {
                     newArr.push([ele[0], ele[1], ele[11]]);
                 }
-            
-            })
-
-        })
-        return newArr;
+                
+            });
+            return newArr;
+        }
+        throw new Error(response.status);
     };
-console.log(travelData());
+       
 
-const years = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
-const months = [1,2,3,4,5,6,7,8,9,10,11,12];
+
+// const years = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
+// const months = [1,2,3,4,5,6,7,8,9,10,11,12];
 
 const monthlyDataSet = () => {
     const monthly = {};
@@ -48,7 +50,19 @@ const monthlyDataSet = () => {
     });
 }
 
-monthlyDataSet();
+//action method, from the request with year and month, calls travelData() method, 
+//returns an array of data for the month, subArray of whole data
+async function sendDataSet(year, month)  {
+    const startIndex = ( 144*year) + 12*(month - 1);
+    const endIndex = startIndex + 11;
+
+    const datum = await travelData();
+    return datum.slice(startIndex, (endIndex + 1));
+}
+
+console.log(sendDataSet(20, 1));
+// console.log(sendDataSet(0, 2));
+
 
 const getTouristPopulation = () => {
     let number = 0;
@@ -97,9 +111,8 @@ d3.json("canadaProvinces.json").then((data) => {
         .attr('fill', 'steelblue')
         .append('title')
         .text((d) => { return d.properties.PRENAME; });
-
+        
     document.querySelectorAll('.province').forEach(province => { province.addEventListener('mouseover', (e) => {
-       
         let tooltip = document.querySelector('.tooltip');
         let x = e.pageX;     // Get the horizontal coordinate
         let y = e.pageY;
@@ -130,6 +143,16 @@ d3.json("canadaProvinces.json").then((data) => {
         .text((data) => { return data.properties.PRENAME; })
 });
 
+//range slider input
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    document.querySelector('.slider').addEventListener("change", function(){
+        const value = document.querySelector('.slider').value;
+        document.querySelector('.monthDisplay').innerText = months[value - 1];
+        });
 
+        // document.querySelector('.monthDisplay').innerText = 
+        // document.querySelector('.slider').value;
+  
+   
 
 
