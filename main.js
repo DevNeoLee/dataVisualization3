@@ -3,7 +3,7 @@
 //canvas1 for map of canada chart, svg1
 const canvas1 = d3.select('.displayContainer')
                 .append('svg')
-                .attr('width', '750')
+                .attr('width', '850')
                 .attr('height', '610')
                 .style('background-color', '#eeeeee')
                 .attr('class', 'map-chart')
@@ -120,7 +120,10 @@ async function travelData() {
                 newArr.push([ele[0], ele[1], ele[11]]);
             }
         });
+   
         return newArr;
+
+        
     }
     throw new Error(response.status);
 };
@@ -140,21 +143,50 @@ async function monthlyData(year, month) {
 //displays monthly data on the map-chart with graded colors on each provinces
 function displayOnMap(visitorData) {
      visitorData.then(function(visitorArray) {
-        console.log(visitorArray); /////12개의 자료 어레이 리스트 각각 [날짜, '주이름','숫자' ]
+         //finalTrimiming of the visitor numbers to each province monthly
+        const reVisitorList = [
+                visitorArray[9],
+                visitorArray[4],
+                visitorArray[11],
+                visitorArray[1],
+                visitorArray[7],
+                visitorArray[10],
+                visitorArray[6],
+                visitorArray[5],
+                visitorArray[3],
+                [visitorArray[1][0], "North West Territory", "0"],
+                visitorArray[8],
+                visitorArray[0],
+                visitorArray[2]
+                ].map(ele => ele[2]);
+                
+        //d3 variables
+        const margin = { top: 10, right: 5, bottom: 10, left: 20},
+              height = 600 - margin.top - margin.bottom;
+        const axisData = reVisitorList;
+         console.log(axisData);
+        //define xScale, color scale
+        const yScale = d3.scaleLinear()
+                    .domain([d3.min(axisData), d3.max(axisData)])      
+                    .range([0, height]);
 
-
-
-
-
-         console.log(visitorArray[1] + visitorArray[2]);//////////
-        d3.selectAll('.province')// 13개의 다른 지역들이 선택된중 각각의 지역들을 순서대로...
-            // .data(visitorArray)///여긴 12개의 어레이가 있지.
+        // define axis
+        const yAxis = d3.axisRight()
+                   .scale(yScale);
+        
+        // append group and insert axis
+        canvas1.append('g')  
+               .attr('transform', 'translate(767, 10)')
+               .call(yAxis)            
+                                     
+                
+        d3.selectAll('.province')// 13개의 다른 지도 지역들중..
+            .data(reVisitorList)
             // .enter()
-            .style("fill", function (visitorArray, i) { return 'rgb(20, 20, ' + ((i * 50) + 10) + ')' });        
-          
+            .style("fill", function (visitorArray, i) { return 'rgb(100, 20, ' + ((i * 50) + 10) + ')' });        
     });
     // document.querySelectorAll('.province').forEach((province) => {
-        
+         
     // });
     // console.log(data.text())
     // d3.selectAll('.province')
