@@ -211,9 +211,10 @@ function displayOnMap(visitorData) {
 
 //selection input value eventlistener for 'change'
 document.querySelector('.select').addEventListener("change", function(){
-    monthlyData(document.querySelector('.select').value, document.querySelector('.slider').value);
+  
     // call display on the map
-    
+    const monthly = monthlyData(document.querySelector('.select').value, document.querySelector('.slider').value);
+    displayOnMap(monthly);
 });
     
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
