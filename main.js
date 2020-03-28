@@ -144,6 +144,7 @@ async function monthlyData(year, month) {
 function displayOnMap(visitorData) {
      visitorData.then(function(visitorArray) {
          //finalTrimiming of the visitor numbers to each province monthly
+         
         const reVisitorList = [
                 visitorArray[9],
                 visitorArray[4],
@@ -158,33 +159,42 @@ function displayOnMap(visitorData) {
                 visitorArray[8],
                 visitorArray[0],
                 visitorArray[2]
-                ].map(ele => ele[2]);
-                
+                ].map(ele => parseInt(ele[2]));
+            
         //d3 variables
         const margin = { top: 10, right: 5, bottom: 10, left: 20},
               height = 600 - margin.top - margin.bottom;
         const axisData = reVisitorList;
-         console.log(axisData);
-        //define xScale, color scale
+       
+        //define xScale
         const yScale = d3.scaleLinear()
                     .domain([d3.min(axisData), d3.max(axisData)])      
-                    .range([0, height]);
+                    .range([height, 0]);
 
-        // define axis
-        const yAxis = d3.axisRight()
-                   .scale(yScale);
-        
-        // append group and insert axis
-        canvas1.append('g')  
-               .attr('transform', 'translate(767, 10)')
-               .call(yAxis)            
-                                     
-                
-        d3.selectAll('.province')// 13개의 다른 지도 지역들중..
-            .data(reVisitorList)
+        //define colorScale
+         const colorScale = d3.scaleLinear()
+                     .domain([d3.min(axisData), d3.max(axisData)])
+                    .range([0, 255]);
+
+        // coloring the province accoring to the visitor numbers     
+        d3.selectAll('.province')// 13개의 다른 지도 지역들에다가....순서대로...
+            .data(reVisitorList) // 방문자 숫자순서대로
             // .enter()
-            .style("fill", function (visitorArray, i) { return 'rgb(100, 20, ' + ((i * 50) + 10) + ')' });        
-    });
+            // .style("fill", "rgb(150, 150, 120)");
+            .style("fill", function (reVistorList, i) { return "rgb(150, 150," + (Math.round(colorScale(reVisitorList[i]))) +  ")"});        
+        //   console.log(Math.round(colorScale(6000)));
+
+         // define axis
+         const yAxis = d3.axisRight()
+             .scale(yScale);
+
+        // append group and insert axis
+         canvas1.append('g')
+             .attr('transform', 'translate(767, 10)')
+             .call(yAxis);    
+
+        }); 
+
     // document.querySelectorAll('.province').forEach((province) => {
          
     // });
