@@ -46,7 +46,7 @@ d3.json("canadaProvinces.json").then((data) => {
                                 .attr('d', path)
                                 .attr('class', 'province')
                                 // .attr("class", function (data) { return "province" + data.id; })
-                                .attr('fill', 'steelblue')
+                                .attr('fill', 'lightgreen')
         
                                 // .append('title')
                                 // .text((data) => { return data.properties.PRENAME; });
@@ -164,24 +164,22 @@ function displayOnMap(visitorData) {
         //d3 variables
         const margin = { top: 10, right: 5, bottom: 10, left: 20},
               height = 600 - margin.top - margin.bottom;
-        const axisData = reVisitorList;
+        const axisData = [0, 600000];
        
         //define xScale
         const yScale = d3.scaleLinear()
                     .domain([d3.min(axisData), d3.max(axisData)])      
-                    .range([height, 0]);
-
+                    .range([0, 500]);
         //define colorScale
          const colorScale = d3.scaleLinear()
                      .domain([d3.min(axisData), d3.max(axisData)])
-                    .range([0, 255]);
-
+             .range(["#a6cee3", "#b15928"]);
         // coloring the province accoring to the visitor numbers     
         d3.selectAll('.province')// 13개의 다른 지도 지역들에다가....순서대로...
             .data(reVisitorList) // 방문자 숫자순서대로
             // .enter()
             // .style("fill", "rgb(150, 150, 120)");
-            .style("fill", function (reVistorList, i) { return "rgb(150, 150," + (Math.round(colorScale(reVisitorList[i]))) +  ")"});        
+            .style("fill", function (reVistorList, i) { return colorScale(reVisitorList[i]) });        
         //   console.log(Math.round(colorScale(6000)));
 
          // define axis
@@ -209,7 +207,7 @@ function displayOnMap(visitorData) {
         // .style("fill", function (data, i) { return 'rgb(20, 20, ' + ((i * 30) + 100) + ')' });
 };
 
-displayOnMap(monthlyData(1, 7));//////////testing///////////
+
 
 //selection input value eventlistener for 'change'
 document.querySelector('.select').addEventListener("change", function(){
@@ -229,8 +227,8 @@ document.querySelector('.slider').addEventListener("change", function(){
     displayOnMap(monthly);
 });
 
-
-
+//default value with the data of 2019 Jan when the webpage initializes
+displayOnMap(monthlyData(19, 1));//////////testing///////////
   
    
 
