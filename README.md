@@ -2,4 +2,4 @@
 
 Travel to Canada Statistics by each month since year 2000.
 
-https://github.com/DevNeoLee/dataVisualization3
+https://devneolee.github.io/dataVisualization3/
