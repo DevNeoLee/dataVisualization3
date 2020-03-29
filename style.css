@@ -32,6 +32,11 @@
               justify-content: space-between; 
               width: 50%;  
           }
+
+          .bar-chart {
+              background-color: lightsalmon;
+              margin: 0 auto;
+          }
           /* specific properties */
         .wrapper h1 {
             text-align: center;
