@@ -23,6 +23,9 @@
 
            .subContainer2 {
             width: 100%;
+            margin: 0 auto;
+            align-items: center;
+            justify-content: center;
           }
 
           .controlContainer {
@@ -32,10 +35,14 @@
               justify-content: space-between; 
               width: 50%;  
           }
-
-          .bar-chart {
-              background-color: lightsalmon;
-              margin: 0 auto;
+          .canvas2 {
+              padding-top: 1rem;
+              background-color: white;
+          }
+          .barGroup {
+/*     
+              margin-left: 50px;
+              padding-left: 100px; */
           }
           /* specific properties */
         .wrapper h1 {

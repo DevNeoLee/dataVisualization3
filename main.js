@@ -1,6 +1,5 @@
 //three canvas project 
 
-
 //map-chart appending, projecting, and appending it in path on SVG
 //canvas1 for map of canada chart, svg1
 const canvas1 = d3.select('.subContainer1')
@@ -66,12 +65,10 @@ d3.json("canadaProvinces.json").then((data) => {
     // data.id
 });
 
-
 //displays monthly data on the map-chart with graded colors on each provinces
 function displayOnMap(visitorData) {
     visitorData.then(function (visitorArray) {
         //finalTrimiming of the visitor numbers to each province monthly
-
         const reVisitorList = [
             visitorArray[9],
             visitorArray[4],
@@ -118,82 +115,91 @@ function displayOnMap(visitorData) {
         canvas1.append('g')
             .attr('transform', 'translate(77, 50)')
             .call(yAxis);
-
     });
 };
 
 
-
-
-//canvas2
+//canvas2, bar-chart
 const dataSet = [80, 100, 34, 77, 91, 33 , 120, 160];
 
-const margin2 = { top: 10, right: 10, bottom: 10, left: 30},
-      width2 = 700 - margin2.right - margin2.left,
+const margin2 = { top: 10, right: 10, bottom: 100, left: 30 },
+      width2 = 720 - margin2.right - margin2.left,
       height2 = 450 - margin2.top - margin2.bottom,
-      barPadding = 5,
+      barPadding = 35,
       barWidth = width2 / dataSet.length;
+const barColors = d3.scaleOrdinal(d3.schemePastel1);      
 // //canvas2 for bar-chart, svg2
 const canvas2 = d3.select('.subContainer2')
     .append('svg')
     .attr('width', width2 + margin2.right + margin2.left)
     .attr('height', height2 + margin2.top + margin2.bottom)
-    .attr('class', 'bar-chart');
+    .attr('class','canvas2');
     // .append('g')
         // .attr('transform', 'translate(' + margin2.left + ',' + margin2.right + ')');
-const xScale = d3.scaleBand()
+const xScale2 = d3.scaleLinear()
     .rangeRound([0, width2])
-    .domain(0, dataSet.length)
-    .padding(0.3);
+    .domain([0, dataSet.length]);
 
-const yScale = d3.scaleLinear()
-    .domain(Math.min(dataSet), Math.max(dataSet))
-     .range([[0, height2]]);
+const xAxisScale = d3.scaleLinear()
+    .range([0, width2])
+    .domain([0, dataSet.length]);
 
-const xAxis = d3.axisBottom()
-     .scale(xScale);
 
-const yAxis = d3.axisLeft()
-     .scale(yScale);
+const yAxisScale = d3.scaleLinear()
+    .domain([d3.max(dataSet), 0])
+    .range([0, height2]);
+
+const yScale2 = d3.scaleLinear()
+    .domain([0, d3.max(dataSet)])
+    .range([0, height2]);
+
+
+
+const xAxis2 = d3.axisBottom()
+     .scale(xAxisScale);
+
+const yAxis2 = d3.axisLeft()
+     .scale(yAxisScale);
 
 //draw the bars
 canvas2.selectAll('rect')
+    .append('g')
+    .attr('class', 'barGroup')
     .data(dataSet)
     .enter()
     .append('rect')
-    // .attr('x', d => d)
-    .attr('y', d => height2 - d)
+    .attr('x', (d, i) => barWidth * i + barPadding)
+    .attr('y', d => height2 - yScale2(d) + 6)
     .attr('width', barWidth - barPadding)
-    .attr('height',d => d)
-    .attr('transform', (d, i) => (
-        'translate(' + [barWidth * i, 0] + ")"
-    ));
- 
-// canvas2.append('g')
-//     .attr('class', 'x_axis')
-//     .attr('transform', 'translate(10, 430)')
-//     .call(xAxis);
+    .attr('height', d => yScale2(d))
+    .style('fill', (d, i) => {return barColors(d)});
 
-// canvas2.append('g')
-//     .attr('class', 'y_axis')
-//     .attr('transform', 'translate(50, 40)')
-//     .call(yAxis);
+//white labels text for 'x' directions
+const labels = canvas2.selectAll('text')
+        .data(dataSet)
+        .enter()
+        .append('text')
+        .text(d => d)
+        .attr('y', (d, i) => (height2 - yScale2(d) + 21))
+        .attr('x', (d, i) => (barWidth * i + 47))
+        .attr('fill', 'white');
 
+canvas2.append('g')
+        .attr('class', 'x_axis')
+        .attr('transform', 'translate( 60 , 345)')
+        .call(xAxis2);
 
-
-
-
-
-
-
-
-
+canvas2.append('g')
+        .attr('class', 'y_axis')
+        .attr('transform', 'translate(30, 5)')
+        .call(yAxis2);
 
 
 
-//canvas3 for pie-chart, svg3
-//pie-chart
-//radius
+
+// canvas3 for pie-chart, svg3
+// pie-chart
+// radius
 const pie_margin = { top: 5, right: 5, bottom: 5, left: 5 },
       pie_width = 300 - pie_margin.right - pie_margin.left,
       pie_height = 300 - pie_margin.top - pie_margin.bottom,
@@ -221,10 +227,9 @@ const arc = d3.arc()
     .padAngle(0.05)
     .padRadius(50);
 
-const sections = canvas3
-    .append('g')
-    .attr('transform', 'translate(350, 200)')
-    .selectAll('path').data(data2);
+const sections = canvas3.append('g')
+                .attr('transform', 'translate(350, 200)')
+                .selectAll('path').data(data2);
 
 sections.enter()
      .append('path')
@@ -263,7 +268,8 @@ const legend = legends.enter()
             .attr('fill', (d) => colors(d.value))
             .attr('x', 20)
             .attr('y',30);
-//append g elements(arc)
+
+// // append g elements(arc)
 // const g = canvas3.selectAll('.arc')
 //     .data(data2)
 //     .attr('transform', 'translate(10 ,10)')
@@ -274,11 +280,8 @@ const legend = legends.enter()
 //     g.append('path')
 //         .attr('d', arc)
 //         .style('fill', 'lightblue')
-// //append the text(labels)
+// // //append the text(labels)
    
-
-
-
 
 // getting travel data from the file, 'travel_to_canada_province'
 // trims data for only
@@ -328,9 +331,6 @@ async function monthlyData(year, month) {
     return data;
 };
 
-
-
-
 //selection input value eventlistener for 'change'
 document.querySelector('.select').addEventListener("change", function(){
   
@@ -355,7 +355,7 @@ document.querySelector('.slider').addEventListener("change", function(){
 });
 
 //default value with the data of 2019 Jan when the webpage initializes
-displayOnMap(monthlyData(19, 1));//////////testing///////////
+displayOnMap(monthlyData(17, 1));//////////testing///////////
   
    
 
