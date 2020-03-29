@@ -7,31 +7,47 @@
           }
 
           .wrapper {
-              width: 100%;
+              width: 100vw;
               height: 100vh;
-               display: grid;
+              display: grid;
 
           }
-
           .displayContainer {
-            width: 100%;
+            width: 100vw;
             display: flex;
           }
 
+          .subContainer1 {
+            width: 100%;
+          }
 
+           .subContainer2 {
+            width: 100%;
+          }
+
+          .controlContainer {
+              display: flex;
+              margin: 0 auto;
+              align-items: center;
+              justify-content: space-between; 
+              width: 50%;  
+          }
           /* specific properties */
+        .wrapper h1 {
+            text-align: center;
+        }
 
         .tooltip {
             position: absolute;
             background-color: darkgoldenrod;
             border: 0.3px solid black;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.3rem;
+            /* line-height: 1.5; */
         
         }
         .province {
             stroke: white;
-            stroke-width: 0.2px;
+            stroke-width: 0.9px;
         }
 
         .province:hover {
@@ -44,13 +60,15 @@
             background-color: DodgerBlue;
             color: white;
             width: 10rem;
+            height: 3rem;
         }
 
         .monthDisplay {
             margin: 1rem;
             width: 4rem;
+            height: 2.5rem;
             font-size: 1.3rem;
-            background-color: lightgreen;
+            background-color: #eeeeee;
             line-height: 2;
             text-align: center;
             border-radius: 0.4rem;
@@ -58,7 +76,7 @@
 
         .slider {
             font-size: 1.5rem;
-            width: 15rem;
+            width: 18rem;
 
         }
 

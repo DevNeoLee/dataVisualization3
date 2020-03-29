@@ -14,12 +14,14 @@
 
 </head>
 <body>
+    <div class="tooltip"></div>
     <div class="wrapper">
         <div class="displayContainer">
-            <div class="tooltip"></div>
+            <div class="subContainer1"></div>
+            <div class="subContainer2"></div>
         </div>
-        <div class="controlPanel">
-            <h4>various data for each province</h4>
+        <h1>Travelers from Overseas to Canada (2000 - 2019)</h1>
+        <div class="controlContainer">
             <select id="year" name="year" class="select">
                 <option value="19">2019</option>
                 <option value="18">2018</option>
@@ -34,10 +36,10 @@
             </select>
             <div class="monthDisplay">Jan</div>
             <div class="slideContainer">
-                each months
                 <input type="range" min="1" max="12" value="1" step="1" class="slider" id="myRange">
+                <p>months</p>
             </div>
-            <div>bar chart for each province of Canada</div>
+            
         </div>
     </div>
    
