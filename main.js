@@ -84,8 +84,13 @@ function displayOnMap(visitorData) {
             visitorArray[0],
             visitorArray[2]
         ].map(ele => parseInt(ele[2]));
-
+        
+        //calling barChart to display
         barChart(reVisitorList);
+        
+        //calling pieChart to display
+        pieChart(reVisitorList);
+        
         //d3 variables
         const margin = { top: 10, right: 5, bottom: 10, left: 20 },
             height = 600 - margin.top - margin.bottom;
@@ -225,17 +230,17 @@ canvas2.append('g')
 // canvas3 for pie-chart, svg3
 // pie-chart
 // radius
+function pieChart(pie_data) {
 const pie_margin = { top: 5, right: 5, bottom: 5, left: 5 },
       pie_width = 300 - pie_margin.right - pie_margin.left,
       pie_height = 300 - pie_margin.top - pie_margin.bottom,
       pie_radius = pie_width / 2;
 
-const pie_data = [23,2,45,35,55];
-
 // define canvas3, svg
 const colors = d3.scaleOrdinal(d3.schemePastel1);
 const canvas3 = d3.select('.subContainer2')
     .append('svg')
+    .attr('class', 'canvas3')
     .attr('width', '700')
     .attr('height', '370');
   
@@ -292,7 +297,7 @@ const legend = legends.enter()
             .attr('fill', (d) => colors(d.value))
             .attr('x', 20)
             .attr('y',30);
-
+}
 // // append g elements(arc)
 // const g = canvas3.selectAll('.arc')
 //     .data(data2)
@@ -366,10 +371,12 @@ document.querySelector('.select').addEventListener("change", function(){
     // current canvas2 delete first
     const g = d3.selectAll(".canvas2")
         .remove();
+    //current canvas3 delete before next 
+    const deleteCanvas3 = d3.selectAll(".canvas3")
+        .remove();
 
     displayOnMap(monthly);
-    // displayOnBarChart(monthly);
-    // displayOnLineChart(monthly);
+
 });
     
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -381,16 +388,15 @@ document.querySelector('.slider').addEventListener("change", function(){
     const monthly = monthlyData(document.querySelector('.select').value, value);
     // call display on the map
 
-    //current canvas2 delete first
-    const g = d3.selectAll(".canvas2")
-    // g.selectAll(".canvas2")
-        // .data([])
-        // .exit()
+    //current canvas2 delete before next 
+    const deleteCanvas2 = d3.selectAll(".canvas2")
+        .remove();
+    //current canvas3 delete before next 
+    const deleteCanvas3 = d3.selectAll(".canvas3")
         .remove();
 
     displayOnMap(monthly);
-    // displayOnBarChart(monthly);
-    // displayOnLineChart(monthly);
+    
 });
 
 //default value with the data of 2019 Jan when the webpage initializes
