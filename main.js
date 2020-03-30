@@ -61,7 +61,7 @@ d3.json("canadaProvinces.json").then((data) => {
         .attr('y', (data) => { return path.centroid(data)[1]; })
         .attr('text-anchor', 'left')
         .style('font-size', '1rem')
-        .text((data) => { return data.properties.PRENAME; });
+        .text((data) => { return data.properties.PRENAME + data.id; });
     // data.id
 });
 
@@ -85,6 +85,7 @@ function displayOnMap(visitorData) {
             visitorArray[2]
         ].map(ele => parseInt(ele[2]));
 
+        barChart(reVisitorList);
         //d3 variables
         const margin = { top: 10, right: 5, bottom: 10, left: 20 },
             height = 600 - margin.top - margin.bottom;
@@ -95,10 +96,11 @@ function displayOnMap(visitorData) {
             .domain([d3.max(axisData), d3.min(axisData)])
             .range([0, 500]);
         //define colorScale
+        const barColors = d3.scaleOrdinal(d3.schemePastel1);   
         const colorScale = d3.scaleLinear()
             .domain([d3.min(axisData), d3.max(axisData)])
             //  .range(["#a6cee3", "#b15928"]);
-            .range(["lightblue", "darkred"]);
+            .range(d3.schemePastel2);
         // coloring the province accoring to the visitor numbers     
         d3.selectAll('.province')
             .data(reVisitorList)
@@ -120,12 +122,14 @@ function displayOnMap(visitorData) {
 
 
 //canvas2, bar-chart
-const dataSet = [80, 100, 34, 77, 91, 33 , 120, 160];
+function barChart(dataSet) {
+// const dataSet = [80, 10000, 3400, 0, 88888, 77, 91, 33 , 120, 1600000, 300000, 300, 30];
+const provinceNames = ['British Columbia', "Quebec", 'Nunavut', "Prince Edward Island", "Saskatchewan", "Yukon", "Manitoba", "Ontario", "New Brunswick", 'Northwest Territories', "Alberta", "Newfoundland and Labrador",'Nova Scotia' ];
 
 const margin2 = { top: 10, right: 10, bottom: 100, left: 30 },
       width2 = 720 - margin2.right - margin2.left,
       height2 = 450 - margin2.top - margin2.bottom,
-      barPadding = 35,
+      barPadding = 31,
       barWidth = width2 / dataSet.length;
 const barColors = d3.scaleOrdinal(d3.schemePastel1);      
 // //canvas2 for bar-chart, svg2
@@ -140,23 +144,34 @@ const xScale2 = d3.scaleLinear()
     .rangeRound([0, width2])
     .domain([0, dataSet.length]);
 
-const xAxisScale = d3.scaleLinear()
-    .range([0, width2])
-    .domain([0, dataSet.length]);
 
+    // .attr("class", "xAxisBar")
+    // .attr("transform", "translate(0," + height + ")")
+   
 
-const yAxisScale = d3.scaleLinear()
-    .domain([d3.max(dataSet), 0])
-    .range([0, height2]);
+            const xAxisScale = d3.scaleBand()
+                .domain(provinceNames.map(d => d))
+                .rangeRound([0, width2])
+                .padding(0.2);
+                // .attr('class', 'xAxis');
+                // .range([0, width2])
+                // .domain([0, dataSet.length]);
+                // .tickValues((provinceNames, i) => provinceNames[i]);
+            const xAxis2 = d3.axisBottom()
+                .scale(xAxisScale)
+                
+                // .attr('padding', '1rem');
+                // .style('font-size', '2rem');
+                // .ticks(10, "%");
+         
 
 const yScale2 = d3.scaleLinear()
     .domain([0, d3.max(dataSet)])
     .range([0, height2]);
 
-
-
-const xAxis2 = d3.axisBottom()
-     .scale(xAxisScale);
+const yAxisScale = d3.scaleLinear()
+    .domain([d3.max(dataSet), 0])
+    .range([0, height2]);    
 
 const yAxis2 = d3.axisLeft()
      .scale(yAxisScale);
@@ -180,20 +195,30 @@ const labels = canvas2.selectAll('text')
         .enter()
         .append('text')
         .text(d => d)
-        .attr('y', (d, i) => (height2 - yScale2(d) + 21))
+        .attr('y', 150)
+        .style('text-anchor', 'middle')
         .attr('x', (d, i) => (barWidth * i + 47))
-        .attr('fill', 'white');
+        .attr('transform', 'translate(400, 35)')
+        .attr('transform', 'rotate(1)')
+        .attr('fill', 'darkgray')
+        // .style('text-anchor', 'start');
 
-canvas2.append('g')
-        .attr('class', 'x_axis')
-        .attr('transform', 'translate( 60 , 345)')
-        .call(xAxis2);
+        canvas2.append('g')
+                .attr('class', 'x_axis')
+                .attr('transform', 'translate( 30, 345)')
+                .call(xAxis2)
+                .selectAll('text')
+                .style('font-size', '1rem')
+                .attr('transform', 'rotate(90)')
+                .style('text-anchor', 'end');
+               
+        
 
 canvas2.append('g')
         .attr('class', 'y_axis')
         .attr('transform', 'translate(30, 5)')
         .call(yAxis2);
-
+}
 
 
 
@@ -219,7 +244,6 @@ const data2 = d3.pie()
     .sort(null)
     .value((d) => d)(pie_data);
 
-console.log(data2);
 // arc generator
 const arc = d3.arc()
     .innerRadius(0)
@@ -328,7 +352,9 @@ async function monthlyData(year, month) {
 
     const datum = await travelData();
     const data = datum.slice(startIndex, (endIndex + 1));
+    console.log(data);
     return data;
+    
 };
 
 //selection input value eventlistener for 'change'
@@ -356,7 +382,7 @@ document.querySelector('.slider').addEventListener("change", function(){
 
 //default value with the data of 2019 Jan when the webpage initializes
 displayOnMap(monthlyData(17, 1));//////////testing///////////
-  
+
    
 
 
