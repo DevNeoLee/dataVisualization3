@@ -362,6 +362,11 @@ document.querySelector('.select').addEventListener("change", function(){
   
     // call display on the map
     const monthly = monthlyData(document.querySelector('.select').value, document.querySelector('.slider').value);
+    
+    // current canvas2 delete first
+    const g = d3.selectAll(".canvas2")
+        .remove();
+
     displayOnMap(monthly);
     // displayOnBarChart(monthly);
     // displayOnLineChart(monthly);
@@ -375,6 +380,14 @@ document.querySelector('.slider').addEventListener("change", function(){
 
     const monthly = monthlyData(document.querySelector('.select').value, value);
     // call display on the map
+
+    //current canvas2 delete first
+    const g = d3.selectAll(".canvas2")
+    // g.selectAll(".canvas2")
+        // .data([])
+        // .exit()
+        .remove();
+
     displayOnMap(monthly);
     // displayOnBarChart(monthly);
     // displayOnLineChart(monthly);
