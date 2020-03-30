@@ -6,83 +6,76 @@
               box-sizing: border-box;
           }
 
-          .wrapper {
-              width: 100vw;
-              height: 100vh;
+          .container {
+              width: 100%;
+              height: 100%;
               display: grid;
-
+              grid-template-columns: 2fr 1fr 1fr;
+              grid-template-rows: 2fr 1fr 1fr;
           }
-          .displayContainer {
-            width: 100vw;
-            display: flex;
-          }
-
-          .subContainer1 {
-            width: 100%;
+          .barWrap {
+            grid-area: 1 /1 /4 /2;
+            /* background-color: lightsalmon; */
           }
 
-           .subContainer2 {
-            width: 100%;
-            margin: 0 auto;
+          .mapWrap {
+            grid-area: 1 /2 /3 /4;
+            /* background-color: lightblue; */
+          }
+
+          .pieWrap {
+            grid-area: 2 /2 /4 /3;
+            /* background-color: lightgreen; */
+          }
+
+          .controlWrap {    
+            grid-area: 3 /3 /4 /4;
             align-items: center;
-            justify-content: center;
+            display: flex;
+            /* background-color: lightpink; */
           }
 
-          .controlContainer {
-              display: flex;
-              margin: 0 auto;
-              align-items: center;
-              justify-content: space-between; 
-              width: 50%;  
-          }
-          .canvas2 {
-              padding-top: 1rem;
-              background-color: white;
-          }
           .barGroup {
-/*     
-              margin-left: 50px;
-              padding-left: 100px; */
+/
           }
 
           /* specific properties */
-        .wrapper h1 {
+        h1 {
             text-align: center;
         }
 
         .tooltip {
             position: absolute;
-            background-color: darkgoldenrod;
-            border: 0.3px solid black;
-            font-size: 0.3rem;
-            /* line-height: 1.5; */
+            background-color: white;
+            border: 0.8px solid black;
+            border-radius: 0.3rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
         
         }
         .province {
-            stroke: white;
-            stroke-width: 0.9px;
+            stroke: black;
+            stroke-width: 0.3px;
         }
 
         .province:hover {
-            fill: rgb(229, 173, 151);
+            fill: orange !important;
             cursor: pointer;
         }
         
         /*bar-chart */
-       .x_axis {
-           
-       }
+     
 
         .select {
             font-size: 1.4rem;
             background-color: DodgerBlue;
             color: white;
-            width: 10rem;
+            width: 6rem;
             height: 3rem;
         }
 
         .monthDisplay {
-            margin: 1rem;
+            /* margin: 1rem; */
             width: 4rem;
             height: 2.5rem;
             font-size: 1.3rem;
@@ -94,7 +87,7 @@
 
         .slider {
             font-size: 1.5rem;
-            width: 18rem;
+            width: 10rem;
 
         }
 

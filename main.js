@@ -2,9 +2,9 @@
 
 //map-chart appending, projecting, and appending it in path on SVG
 //canvas1 for map of canada chart, svg1
-const canvas1 = d3.select('.subContainer1')
+const canvas1 = d3.select('.mapWrap')
                 .append('svg')
-                .attr('width', '900')
+                .attr('width', '850')
                 .attr('height', '600')
                 .attr('class', 'map-chart');
 
@@ -16,8 +16,8 @@ d3.json("canadaProvinces.json").then((data) => {
         .attr('class', 'provinces');
 
     const projection = d3.geoMercator()
-        .scale([450])
-        .translate([1277, 950]);
+        .scale([480])
+        .translate([1185, 990]);
 
     const path = d3.geoPath()
         .projection(projection);
@@ -55,14 +55,14 @@ d3.json("canadaProvinces.json").then((data) => {
             // const message = `this province had: ${data.features.PRENAME}`;
         })
     });
-    //map-chart province name display
-    provinces.append('text')
-        .attr('x', (data) => { return path.centroid(data)[0]; })
-        .attr('y', (data) => { return path.centroid(data)[1]; })
-        .attr('text-anchor', 'left')
-        .style('font-size', '1rem')
-        .text((data) => { return data.properties.PRENAME + data.id; });
-    // data.id
+    // //map-chart province name display
+    // provinces.append('text')
+    //     .attr('x', (data) => { return path.centroid(data)[0]; })
+    //     .attr('y', (data) => { return path.centroid(data)[1]; })
+    //     .attr('text-anchor', 'left')
+    //     .style('font-size', '1rem')
+    //     .text((data) => { return data.properties.PRENAME + data.id; });
+    // // data.id
 });
 
 //displays monthly data on the map-chart with graded colors on each provinces
@@ -120,7 +120,7 @@ function displayOnMap(visitorData) {
 
         // append group and insert axis
         canvas1.append('g')
-            .attr('transform', 'translate(77, 50)')
+            .attr('transform', 'translate(750, 50)')
             .call(yAxis);
     });
 };
@@ -131,14 +131,14 @@ function barChart(dataSet) {
 // const dataSet = [80, 10000, 3400, 0, 88888, 77, 91, 33 , 120, 1600000, 300000, 300, 30];
 const provinceNames = ['British Columbia', "Quebec", 'Nunavut', "Prince Edward Island", "Saskatchewan", "Yukon", "Manitoba", "Ontario", "New Brunswick", 'Northwest Territories', "Alberta", "Newfoundland and Labrador",'Nova Scotia' ];
 
-const margin2 = { top: 10, right: 10, bottom: 100, left: 30 },
-      width2 = 720 - margin2.right - margin2.left,
-      height2 = 450 - margin2.top - margin2.bottom,
-      barPadding = 31,
+const margin2 = { top: 10, right: 10, bottom: 10, left: 30 },
+      width2 = 750 - margin2.right - margin2.left,
+      height2 = 800 - margin2.top - margin2.bottom,
+      barPadding = 0,
       barWidth = width2 / dataSet.length;
 const barColors = d3.scaleOrdinal(d3.schemePastel1);      
 // //canvas2 for bar-chart, svg2
-const canvas2 = d3.select('.subContainer2')
+const canvas2 = d3.select('.barWrap')
     .append('svg')
     .attr('width', width2 + margin2.right + margin2.left)
     .attr('height', height2 + margin2.top + margin2.bottom)
@@ -188,7 +188,7 @@ canvas2.selectAll('rect')
     .data(dataSet)
     .enter()
     .append('rect')
-    .attr('x', (d, i) => barWidth * i + barPadding)
+    .attr('x', (d, i) => 50 + barWidth * i + barPadding)
     .attr('y', d => height2 - yScale2(d) + 6)
     .attr('width', barWidth - barPadding)
     .attr('height', d => yScale2(d))
@@ -202,7 +202,7 @@ const labels = canvas2.selectAll('text')
         .text(d => d)
         .attr('y', 150)
         .style('text-anchor', 'middle')
-        .attr('x', (d, i) => (barWidth * i + 47))
+        .attr('x', (d, i) => ( 35 + barWidth * i + 47))
         .attr('transform', 'translate(400, 35)')
         .attr('transform', 'rotate(1)')
         .attr('fill', 'darkgray')
@@ -210,7 +210,7 @@ const labels = canvas2.selectAll('text')
 
         canvas2.append('g')
                 .attr('class', 'x_axis')
-                .attr('transform', 'translate( 30, 345)')
+                .attr('transform', 'translate( 50, 785)')
                 .call(xAxis2)
                 .selectAll('text')
                 .style('font-size', '1rem')
@@ -221,7 +221,7 @@ const labels = canvas2.selectAll('text')
 
 canvas2.append('g')
         .attr('class', 'y_axis')
-        .attr('transform', 'translate(30, 5)')
+        .attr('transform', 'translate(50, 5)')
         .call(yAxis2);
 }
 
@@ -232,17 +232,17 @@ canvas2.append('g')
 // radius
 function pieChart(pie_data) {
 const pie_margin = { top: 5, right: 5, bottom: 5, left: 5 },
-      pie_width = 300 - pie_margin.right - pie_margin.left,
-      pie_height = 300 - pie_margin.top - pie_margin.bottom,
+      pie_width = 250 - pie_margin.right - pie_margin.left,
+      pie_height = 250 - pie_margin.top - pie_margin.bottom,
       pie_radius = pie_width / 2;
 
 // define canvas3, svg
 const colors = d3.scaleOrdinal(d3.schemePastel1);
-const canvas3 = d3.select('.subContainer2')
+const canvas3 = d3.select('.pieWrap')
     .append('svg')
     .attr('class', 'canvas3')
-    .attr('width', '700')
-    .attr('height', '370');
+    .attr('width', '240')
+    .attr('height', '400');
   
 //pie generator
 const data2 = d3.pie()
@@ -257,7 +257,7 @@ const arc = d3.arc()
     .padRadius(50);
 
 const sections = canvas3.append('g')
-                .attr('transform', 'translate(350, 200)')
+                .attr('transform', 'translate(120, 250)')
                 .selectAll('path').data(data2);
 
 sections.enter()
@@ -269,34 +269,34 @@ const content = d3.select('g')
         .selectAll('text')
         .data(data2);
 
-content.enter()
-        .append('text')
-        .each(function (d) { const center = arc.centroid(d);
-                            d3.select(this)
-                              .attr('x', center[0])
-                              .attr('y', center[1])
-                             .text(d.value);
-                            })
+// content.enter()
+//         .append('text')
+//         .each(function (d) { const center = arc.centroid(d);
+//                             d3.select(this)
+//                               .attr('x', center[0])
+//                               .attr('y', center[1])
+//                              .text(d.value);
+//                             })
 
-const legends = canvas3.append('g')
-                        .attr('transform', 'translate(400, 300')
-                        .selectAll('.legends')
-                        .data(data2);
+// const legends = canvas3.append('g')
+//                         .attr('transform', 'translate(400, 300')
+//                         .selectAll('.legends')
+//                         .data(data2);
 
-const legend = legends.enter()
-                      .append('g')
-                      .classed('legends', true)
-                      .attr('transform', function(d, i){ return 'translate(0,'+ ( i+1 )*30 + ")";});
-      legend.append('rect')
-            .attr('width', 20)
-            .attr('height', 20)
-            .attr('fill', function(d){return colors(d.value);});
+// const legend = legends.enter()
+//                       .append('g')
+//                       .classed('legends', true)
+//                       .attr('transform', function(d, i){ return 'translate(0,'+ ( i+1 )*30 + ")";});
+//       legend.append('rect')
+//             .attr('width', 20)
+//             .attr('height', 20)
+//             .attr('fill', function(d){return colors(d.value);});
       
-      legend.append('text')
-            .text(d => d.value)
-            .attr('fill', (d) => colors(d.value))
-            .attr('x', 20)
-            .attr('y',30);
+//       legend.append('text')
+//             .text(d => d.value)
+//             .attr('fill', (d) => colors(d.value))
+//             .attr('x', 20)
+//             .attr('y',30);
 }
 // // append g elements(arc)
 // const g = canvas3.selectAll('.arc')
