@@ -17,7 +17,7 @@ d3.json("canadaProvinces.json").then((data) => {
 
     const projection = d3.geoMercator()
         .scale([480])
-        .translate([1185, 990]);
+        .translate([1185, 950]);
 
     const path = d3.geoPath()
         .projection(projection);
@@ -120,7 +120,7 @@ function displayOnMap(visitorData) {
 
         // append group and insert axis
         canvas1.append('g')
-            .attr('transform', 'translate(750, 50)')
+            .attr('transform', 'translate(770, 50)')
             .call(yAxis);
     });
 };
@@ -131,7 +131,7 @@ function barChart(dataSet) {
 // const dataSet = [80, 10000, 3400, 0, 88888, 77, 91, 33 , 120, 1600000, 300000, 300, 30];
 const provinceNames = ['British Columbia', "Quebec", 'Nunavut', "Prince Edward Island", "Saskatchewan", "Yukon", "Manitoba", "Ontario", "New Brunswick", 'Northwest Territories', "Alberta", "Newfoundland and Labrador",'Nova Scotia' ];
 
-const margin2 = { top: 10, right: 10, bottom: 10, left: 30 },
+const margin2 = { top: 10, right: 10, bottom: 250, left: 90 },
       width2 = 750 - margin2.right - margin2.left,
       height2 = 800 - margin2.top - margin2.bottom,
       barPadding = 0,
@@ -188,8 +188,8 @@ canvas2.selectAll('rect')
     .data(dataSet)
     .enter()
     .append('rect')
-    .attr('x', (d, i) => 50 + barWidth * i + barPadding)
-    .attr('y', d => height2 - yScale2(d) + 6)
+    .attr('x', (d, i) => 80 + barWidth * i + barPadding)
+    .attr('y', d => height2 - yScale2(d) + 20)
     .attr('width', barWidth - barPadding)
     .attr('height', d => yScale2(d))
     .style('fill', (d, i) => {return barColors(d)});
@@ -200,28 +200,26 @@ const labels = canvas2.selectAll('text')
         .enter()
         .append('text')
         .text(d => d)
-        .attr('y', 150)
+    .attr('y', d => height2 - yScale2(d) + 15)
         .style('text-anchor', 'middle')
-        .attr('x', (d, i) => ( 35 + barWidth * i + 47))
-        .attr('transform', 'translate(400, 35)')
-        .attr('transform', 'rotate(1)')
+        .attr('x', (d, i) => ( 106 + barWidth * i))
         .attr('fill', 'darkgray')
         // .style('text-anchor', 'start');
 
         canvas2.append('g')
                 .attr('class', 'x_axis')
-                .attr('transform', 'translate( 50, 785)')
+                .attr('transform', 'translate( 80, 560)')
                 .call(xAxis2)
                 .selectAll('text')
                 .style('font-size', '1rem')
                 .attr('transform', 'rotate(90)')
-                .style('text-anchor', 'end');
+                .style('text-anchor', 'start');
                
         
 
 canvas2.append('g')
         .attr('class', 'y_axis')
-        .attr('transform', 'translate(50, 5)')
+        .attr('transform', 'translate(80, 20)')
         .call(yAxis2);
 }
 
@@ -241,7 +239,7 @@ const colors = d3.scaleOrdinal(d3.schemePastel1);
 const canvas3 = d3.select('.pieWrap')
     .append('svg')
     .attr('class', 'canvas3')
-    .attr('width', '240')
+    .attr('width', '400')
     .attr('height', '400');
   
 //pie generator
@@ -257,7 +255,7 @@ const arc = d3.arc()
     .padRadius(50);
 
 const sections = canvas3.append('g')
-                .attr('transform', 'translate(120, 250)')
+                .attr('transform', 'translate(240, 250)')
                 .selectAll('path').data(data2);
 
 sections.enter()
