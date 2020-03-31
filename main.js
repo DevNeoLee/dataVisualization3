@@ -132,8 +132,8 @@ function barChart(dataSet) {
 const provinceNames = ['British Columbia', "Quebec", 'Nunavut', "Prince Edward Island", "Saskatchewan", "Yukon", "Manitoba", "Ontario", "New Brunswick", 'Northwest Territories', "Alberta", "Newfoundland and Labrador",'Nova Scotia' ];
 
 const margin2 = { top: 10, right: 10, bottom: 250, left: 90 },
-      width2 = 750 - margin2.right - margin2.left,
-      height2 = 800 - margin2.top - margin2.bottom,
+      width2 = 700 - margin2.right - margin2.left,
+      height2 = 750 - margin2.top - margin2.bottom,
       barPadding = 0,
       barWidth = width2 / dataSet.length;
 const barColors = d3.scaleOrdinal(d3.schemePastel1);      
@@ -208,10 +208,10 @@ const labels = canvas2.selectAll('text')
 
         canvas2.append('g')
                 .attr('class', 'x_axis')
-                .attr('transform', 'translate( 80, 560)')
+                .attr('transform', 'translate( 80, 510)')
                 .call(xAxis2)
                 .selectAll('text')
-                .style('font-size', '1rem')
+                .style('font-size', '0.8rem')
                 .attr('transform', 'rotate(90)')
                 .style('text-anchor', 'start');
                
@@ -239,7 +239,7 @@ const colors = d3.scaleOrdinal(d3.schemePastel1);
 const canvas3 = d3.select('.pieWrap')
     .append('svg')
     .attr('class', 'canvas3')
-    .attr('width', '300')
+    .attr('width', '350')
     .attr('height', '250');
   
 //pie generator
