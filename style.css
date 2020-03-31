@@ -7,8 +7,8 @@
           }
 
           .container {
-              width: 90vh;
-              height: 90vh;
+              width: 95vh;
+              height: 95vh;
               display: grid;
               grid-template-columns: 2fr 1fr 1fr;
               grid-template-rows: 2fr 1fr 1fr;
@@ -24,9 +24,9 @@
           }
 
           .pieWrap {
-            grid-area: 2 /2 /4 /3;
+            grid-area: 3 /2 /4 /3;
             /* background-color: lightgreen; */
-            background-color: none;
+          
           }
 
           .controlWrap {    

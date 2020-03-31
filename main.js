@@ -4,8 +4,8 @@
 //canvas1 for map of canada chart, svg1
 const canvas1 = d3.select('.mapWrap')
                 .append('svg')
-                .attr('width', '850')
-                .attr('height', '600')
+                .attr('width', '750')
+                .attr('height', '500')
                 .attr('class', 'map-chart');
 
 d3.json("canadaProvinces.json").then((data) => {
@@ -16,8 +16,8 @@ d3.json("canadaProvinces.json").then((data) => {
         .attr('class', 'provinces');
 
     const projection = d3.geoMercator()
-        .scale([480])
-        .translate([1185, 950]);
+        .scale([420])
+        .translate([1060, 840]);
 
     const path = d3.geoPath()
         .projection(projection);
@@ -120,7 +120,7 @@ function displayOnMap(visitorData) {
 
         // append group and insert axis
         canvas1.append('g')
-            .attr('transform', 'translate(770, 50)')
+            .attr('transform', 'translate(700, 50)')
             .call(yAxis);
     });
 };
@@ -239,8 +239,8 @@ const colors = d3.scaleOrdinal(d3.schemePastel1);
 const canvas3 = d3.select('.pieWrap')
     .append('svg')
     .attr('class', 'canvas3')
-    .attr('width', '400')
-    .attr('height', '400');
+    .attr('width', '300')
+    .attr('height', '250');
   
 //pie generator
 const data2 = d3.pie()
@@ -255,7 +255,7 @@ const arc = d3.arc()
     .padRadius(50);
 
 const sections = canvas3.append('g')
-                .attr('transform', 'translate(240, 250)')
+                .attr('transform', 'translate(140, 120)')
                 .selectAll('path').data(data2);
 
 sections.enter()
